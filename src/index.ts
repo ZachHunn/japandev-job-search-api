@@ -1,8 +1,8 @@
-import express, { Express, Request, Response } from "express";
 import axios from "axios";
-import { Job } from "./utils/types";
-import { notion } from "./utils/notionClient";
 import dotenv from "dotenv";
+import express, { Express } from "express";
+import { notion } from "./utils/notionClient";
+import { Job } from "./utils/types";
 
 dotenv.config();
 const app: Express = express();
@@ -12,17 +12,14 @@ app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
 });
 
-const japanDevUrl = "https://api.japan-dev.com/api/v1/jobs";
+const japanDevUrl = "https://api.japan-dev.com/api/v1/jobs?limit=300";
 const databaseId = process.env.NOTION_DATABASE_ID as string;
 
 
-const getId = notion.databases
-  .query({
-    database_id: databaseId,
-  })
-  .then((value) => Promise.resolve(value.results));
+notion.databases
+    .query({ database_id: databaseId }).then(value => value.results.filter(item => console.log(item)))
+    
 
-console.log(getId)
 app.get("/", async (req, res) => {
   const data: Job[] = await axios.get(japanDevUrl).then((response) => {
     return response.data.data;
