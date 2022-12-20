@@ -2,5 +2,5 @@
   "match" : ["src"],
   "ext" : ".ts, .js",
   "ignore" : [],
-  "exec" : "ts-node ./src/index.ts"
+  "exec" : "ts-node ./api/index.ts"
 }

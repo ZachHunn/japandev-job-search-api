@@ -2,15 +2,15 @@
   "compilerOptions": {
     "sourceMap": true,
     "outDir": "build",
-    "rootDir": "src/",
+    "rootDir": "api",
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "target": "ES6",
+    "target": "es2017",
     "lib": [
       "ESNext"
     ],
     "moduleResolution": "Node",
     "esModuleInterop" : true,
-    "module": "CommonJS"
+    "module": "ESNext"
   }
 }

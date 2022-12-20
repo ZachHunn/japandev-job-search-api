@@ -1,33 +1,38 @@
-import axios from "axios";
-import dotenv from "dotenv";
-import express, { Express } from "express";
-import { notion } from "./utils/notionClient";
-import { Job } from "./utils/types";
+import {
+  QueryDatabaseResponse,
+  GetPagePropertyResponse,
+} from "@notionhq/client/build/src/api-endpoints";
+import { notion } from "../utils/notionClient";
+import { Job } from "../utils/types";
 
-dotenv.config();
-const app: Express = express();
-const port = 3000;
-
-app.listen(port, () => {
-  console.log(`App is listening on port ${port}`);
-});
-
-const japanDevUrl = "https://api.japan-dev.com/api/v1/jobs?limit=300";
-const databaseId = process.env.NOTION_DATABASE_ID as string;
-
-
-notion.databases
-    .query({ database_id: databaseId }).then(value => value.results.filter(item => console.log(item)))
-    
-
-app.get("/", async (req, res) => {
-  const data: Job[] = await axios.get(japanDevUrl).then((response) => {
-    return response.data.data;
+export const queryNotionDatabase = async (
+  databaseId: string,
+  startCursor?: string
+): Promise<QueryDatabaseResponse> => {
+  return await notion.databases.query({
+    database_id: databaseId,
+    start_cursor: startCursor,
   });
+};
 
-  data.forEach(async (job: Job) => {
+export const retreiveNotionPageProperties = async (
+  pageId: string,
+  propertyId: string,
+  pageSize = 100
+): Promise<GetPagePropertyResponse> => {
+  return await notion.pages.properties.retrieve({
+    page_id: pageId,
+    property_id: propertyId,
+    page_size: pageSize,
+  });
+};
+export const createNotionDatabasePages = async (
+  jobList: Job[],
+  databaseId: string
+) => {
+  jobList.forEach(async (job: Job) => {
     const jobAttributes = job.attributes;
-    notion.pages.create({
+    await notion.pages.create({
       parent: { database_id: databaseId },
       properties: {
         ["ID"]: {
@@ -88,7 +93,7 @@ app.get("/", async (req, res) => {
         },
         ["Application Email"]: {
           email: jobAttributes.application_email
-            ? (jobAttributes.application_email )
+            ? jobAttributes.application_email
             : "N/A",
         },
         ["Application URL"]: {
@@ -172,5 +177,4 @@ app.get("/", async (req, res) => {
       },
     });
   });
-  res.status(200).send(data);
-});
+};
