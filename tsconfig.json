@@ -10,5 +10,6 @@
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "module": "ESNext"
-  }
+  },
+  "include": ["./api/**/*"]
 }
