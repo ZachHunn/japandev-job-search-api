@@ -15,7 +15,7 @@ import { Job } from "./utils/types";
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PRODUCTION_PORT || 3000;
+const port = 3000;
 
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
@@ -61,6 +61,9 @@ type MyReponse<T> =
   | { data: T };
 
 app.get("/", async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
+  if (req.method !== "GET") {
+    return res.status(405).json({ err: "Method Not Allowed" });
+  }
   const response = await axios.get(japanDevUrl);
 
   if (response.status !== 200) {
@@ -75,7 +78,9 @@ app.get("/", async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
         "Notion Database is empty. Populating datbase with jobs from japan-dev.com"
       );
       await createNotionDatabasePages(jobsFromJapanDev, databaseId);
-      res.status(200).send({ data: "Jobs from Japan-Dev have been added to notion database" });
+      res.status(200).send({
+        data: "Jobs from Japan-Dev have been added to notion database",
+      });
     } else {
       console.log(
         "Notion Datbase is not empty. Checking to see if any new jobs have been added to Japan-Dev"
@@ -83,6 +88,7 @@ app.get("/", async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
 
       const jobsNotIncludedInNotion = jobsFromJapanDev.filter((job) => {
         const jobId = job.attributes.id as unknown as number;
+
         if (jobIdsFromNotion.includes(jobId)) {
           return null;
         }
@@ -90,13 +96,13 @@ app.get("/", async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
       });
 
       jobsNotIncludedInNotion.length === 0
-        ? res.status(200).send({data: 'No new jobs have been added'})
+        ? console.log("No new jobs have been added")
         : console.log(
             "New Jobs has been found. Adding new jobs to the notion database!"
           );
 
       await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
-      res.status(200).send({ data: "New jobs have been added to the database" });
+      res.status(200).send({ data: "Ok" });
     }
   } catch (error) {
     console.log(error);

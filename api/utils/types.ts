@@ -2,10 +2,9 @@ export type Job = {
   id?: number;
   type?: string;
   attributes: Partial<Attributes>;
-  skills: Partial<SkillsEntity>
-  company: Partial<Company>
-
-}
+  skills: Partial<SkillsEntity>;
+  company: Partial<Company>;
+};
 export type Attributes = {
   id: number;
   title: string;
@@ -29,14 +28,14 @@ export type Attributes = {
   remote_level: string;
   candidate_location: string;
   company: Company;
-}
+};
 export type SkillsEntity = {
   name: string;
   system_name?: string;
   position?: number;
   short_name?: string | null;
   featured?: boolean;
-}
+};
 export type Company = {
   id: number;
   name: string;
@@ -50,4 +49,4 @@ export type Company = {
   is_home_published: boolean;
   home_rating?: null;
   short_description: string;
-}
+};

@@ -6,11 +6,9 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "target": "es2017",
-    "lib": [
-      "ESNext"
-    ],
+    "lib": ["ESNext"],
     "moduleResolution": "Node",
-    "esModuleInterop" : true,
+    "esModuleInterop": true,
     "module": "ESNext"
   }
 }

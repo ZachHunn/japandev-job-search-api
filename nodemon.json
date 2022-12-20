@@ -1,6 +1,6 @@
 {
-  "match" : ["src"],
-  "ext" : ".ts, .js",
-  "ignore" : [],
-  "exec" : "ts-node ./api/index.ts"
+  "match": ["src"],
+  "ext": ".ts, .js",
+  "ignore": [],
+  "exec": "ts-node ./api/index.ts"
 }
