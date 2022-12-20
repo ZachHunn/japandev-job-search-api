@@ -102,7 +102,7 @@ app.get("/", async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
           );
 
       await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
-      res.status(200).send({ data: "Ok" });
+      res.status(200).send({ data: "API is running!" });
     }
   } catch (error) {
     console.log(error);
