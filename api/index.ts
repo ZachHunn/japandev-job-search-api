@@ -60,7 +60,7 @@ type MyReponse<T> =
     }
   | { data: T };
 
-app.get("/", async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
+app.get("/api", async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
   if (req.method !== "GET") {
     return res.status(405).json({ err: "Method Not Allowed" });
   }
@@ -111,3 +111,5 @@ app.get("/", async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
     });
   }
 });
+
+export default app;
