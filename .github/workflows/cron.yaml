@@ -8,6 +8,6 @@ jobs:
     steps:
       - name: Check for jobs on Japan-dev.com
         run: |
-          curl --request POST \
-          --url 'https://yoursite.com/api/cron' \
+          curl --request GET \
+          --url 'https://tokyo-jobs-notion.vercel.app/' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
