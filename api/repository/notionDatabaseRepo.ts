@@ -3,7 +3,7 @@ import {
   GetPagePropertyResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { notion } from "../utils/notionClient";
-import { Job } from "../utils/types";
+import { Job } from "../types";
 
 export const queryNotionDatabase = async (
   databaseId: string,

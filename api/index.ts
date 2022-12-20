@@ -10,7 +10,7 @@ import {
   retreiveNotionPageProperties,
   createNotionDatabasePages,
 } from "./repository/notionDatabaseRepo";
-import { Job } from "./utils/types";
+import { Job } from "./types";
 
 dotenv.config();
 

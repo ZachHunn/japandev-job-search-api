@@ -5,11 +5,15 @@
     "rootDir": "api",
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "noImplicitAny": true,
     "target": "es2017",
     "lib": ["ESNext"],
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "module": "ESNext"
   },
+  "paths": {
+			"*": ["node_modules/*", "api/types/*"]
+		},
   "include": ["./api/**/*"]
 }
