@@ -10,10 +10,12 @@
     "lib": ["ESNext"],
     "moduleResolution": "Node",
     "esModuleInterop": true,
-    "module": "ESNext"
+    "module": "ESNext",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*", "api/types/*"]
+    }
   },
-  "paths": {
-			"*": ["node_modules/*", "api/types/*"]
-		},
+
   "include": ["./api/**/*"]
 }
