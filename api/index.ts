@@ -52,17 +52,17 @@ async function getJobIds() {
   return propertyIdQuery;
 }
 
-const jobIdsFromNotion = await getJobIds();
 
 type MyReponse<T> =
-  | {
-      err: string;
-    }
-  | { data: T };
+| {
+  err: string;
+}
+| { data: T };
 
 app.get(
   "/api",
   async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
+    const jobIdsFromNotion = await getJobIds();
     if (req.method !== "GET") {
       return res.status(405).json({ err: "Method Not Allowed" });
     }
