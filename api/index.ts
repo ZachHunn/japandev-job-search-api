@@ -58,58 +58,61 @@ type MyReponse<T> =
     }
   | { data: T };
 
-app.get("/api", async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
-  const jobIdsFromNotion = await getJobIds();
-  if (req.method !== "GET") {
-    return res.status(405).json({ err: "Method Not Allowed" });
-  }
-  const response = await axios.get(japanDevUrl);
-
-  if (response.status !== 200) {
-    console.log(response.status);
-    throw new Error("Something went wrong trying to get the resource");
-  }
-  try {
-    const jobsFromJapanDev: Job[] = response.data.data;
-
-    if (jobIdsFromNotion.length === 0) {
-      console.log(
-        "Notion Database is empty. Populating datbase with jobs from japan-dev.com"
-      );
-      await createNotionDatabasePages(jobsFromJapanDev, databaseId);
-      res.status(200).send({
-        data: "Jobs from Japan-Dev have been added to notion database",
-      });
-    } else {
-      console.log(
-        "Notion Datbase is not empty. Checking to see if any new jobs have been added to Japan-Dev"
-      );
-
-      const jobsNotIncludedInNotion = jobsFromJapanDev.filter((job) => {
-        const jobId = job.attributes.id as unknown as number;
-
-        if (jobIdsFromNotion.includes(jobId)) {
-          return null;
-        }
-        return job;
-      });
-
-      jobsNotIncludedInNotion.length === 0
-        ? console.log("No new jobs have been added")
-        : console.log(
-            "New Jobs has been found. Adding new jobs to the notion database!"
-          );
-
-      await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
-      res.status(200).send({data: 'New jobs have been found adding them to the notion database'})
+app.get(
+  "/api",
+  async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
+    const jobIdsFromNotion = await getJobIds();
+    if (req.method !== "GET") {
+      return res.status(405).json({ err: "Method Not Allowed" });
     }
-    res.status(200).send({ data: "API is running! No New Jobs Found!" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      err: "Something went wrong! Notion Database could not be updated!",
-    });
+    const response = await axios.get(japanDevUrl);
+
+    if (response.status !== 200) {
+      console.log(response.status);
+      throw new Error("Something went wrong trying to get the resource");
+    }
+    try {
+      const jobsFromJapanDev: Job[] = response.data.data;
+
+      if (jobIdsFromNotion.length === 0) {
+        console.log(
+          "Notion Database is empty. Populating datbase with jobs from japan-dev.com"
+        );
+        await createNotionDatabasePages(jobsFromJapanDev, databaseId);
+        res.status(200).send({
+          data: "Jobs from Japan-Dev have been added to notion database",
+        });
+      } else {
+        console.log(
+          "Notion Datbase is not empty. Checking to see if any new jobs have been added to Japan-Dev"
+        );
+
+        const jobsNotIncludedInNotion = jobsFromJapanDev.filter((job) => {
+          const jobId = job.attributes.id as unknown as number;
+
+          if (jobIdsFromNotion.includes(jobId)) {
+            return null;
+          }
+          return job;
+        });
+        if (jobsNotIncludedInNotion.length === 0) {
+          console.log("No new jobs have been added");
+          res.status(200).send({ data: "No New Jobs Found!" });
+        }
+
+        await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
+        res.status(200).send({
+          data: "New jobs have been found! Adding them to the notion database",
+        });
+      }
+      res.status(200).send({data: 'API running. No New Jobs'})
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        err: "Something went wrong! Notion Database could not be updated!",
+      });
+    }
   }
-});
+);
 
 export default app;
