@@ -31,7 +31,6 @@ async function getJobIds() {
     return propertyIdQuery;
 }
 app.get("/api", async (req, res) => {
-    const jobIdsFromNotion = await getJobIds();
     if (req.method !== "GET") {
         return res.status(405).json({ err: "Method Not Allowed" });
     }
@@ -42,6 +41,7 @@ app.get("/api", async (req, res) => {
     }
     try {
         const jobsFromJapanDev = response.data.data;
+        const jobIdsFromNotion = await getJobIds();
         if (jobIdsFromNotion.length === 0) {
             console.log("Notion Database is empty. Populating datbase with jobs from japan-dev.com");
             await createNotionDatabasePages(jobsFromJapanDev, databaseId);

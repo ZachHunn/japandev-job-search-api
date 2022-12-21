@@ -61,18 +61,18 @@ type MyReponse<T> =
 app.get(
   "/api",
   async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
-    const jobIdsFromNotion = await getJobIds();
     if (req.method !== "GET") {
       return res.status(405).json({ err: "Method Not Allowed" });
     }
     const response = await axios.get(japanDevUrl);
-
+    
     if (response.status !== 200) {
       console.log(response.status);
       throw new Error("Something went wrong trying to get the resource");
     }
     try {
       const jobsFromJapanDev: Job[] = response.data.data;
+      const jobIdsFromNotion = await getJobIds();
 
       if (jobIdsFromNotion.length === 0) {
         console.log(
