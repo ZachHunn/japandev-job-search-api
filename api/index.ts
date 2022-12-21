@@ -103,7 +103,7 @@ app.get("/api", async (req: Request, res: Response<MyReponse<Job[] | string>>) =
       await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
       res.status(200).send({data: 'New jobs have been found adding them to the notion database'})
     }
-    res.status(200).send({ data: "API is running!" });
+    res.status(200).send({ data: "API is running! No New Jobs Found!" });
   } catch (error) {
     console.log(error);
     res.status(500).json({
