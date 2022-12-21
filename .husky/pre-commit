@@ -23,7 +23,8 @@ npm run check-types ||
     echo 'Type checks failed. Please try again!'
     false;
 )
-
+#Ignore fund messge
+npm config set fund false 
 # If everything passes... Now we can commit
 echo '🤔🤔🤔🤔... Alright... Code looks good to me... Trying to build now. 🤔🤔🤔🤔'
 
