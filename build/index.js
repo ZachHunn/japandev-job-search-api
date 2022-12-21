@@ -30,7 +30,7 @@ async function getJobIds() {
     }));
     return propertyIdQuery;
 }
-app.get("/", async (req, res) => {
+app.get("/api", async (req, res) => {
     const jobIdsFromNotion = await getJobIds();
     if (req.method !== "GET") {
         return res.status(405).json({ err: "Method Not Allowed" });
