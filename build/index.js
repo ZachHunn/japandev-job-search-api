@@ -62,12 +62,13 @@ app.get("/api", async (req, res) => {
                 console.log("No new jobs have been added");
                 res.status(200).send({ data: "No New Jobs Found!" });
             }
-            await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
-            res.status(200).send({
-                data: "New jobs have been found! Adding them to the notion database",
-            });
+            else {
+                await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
+                res.status(200).send({
+                    data: "New jobs have been found! Adding them to the notion database",
+                });
+            }
         }
-        res.status(200).send({ data: "API running. No New Jobs" });
     }
     catch (error) {
         console.log(error);

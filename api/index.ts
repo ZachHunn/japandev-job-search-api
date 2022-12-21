@@ -65,7 +65,7 @@ app.get(
       return res.status(405).json({ err: "Method Not Allowed" });
     }
     const response = await axios.get(japanDevUrl);
-    
+
     if (response.status !== 200) {
       console.log(response.status);
       throw new Error("Something went wrong trying to get the resource");
@@ -98,14 +98,13 @@ app.get(
         if (jobsNotIncludedInNotion.length === 0) {
           console.log("No new jobs have been added");
           res.status(200).send({ data: "No New Jobs Found!" });
+        } else {
+          await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
+          res.status(200).send({
+            data: "New jobs have been found! Adding them to the notion database",
+          });
         }
-
-        await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
-        res.status(200).send({
-          data: "New jobs have been found! Adding them to the notion database",
-        });
       }
-      res.status(200).send({data: 'API running. No New Jobs'})
     } catch (error) {
       console.log(error);
       res.status(500).json({
