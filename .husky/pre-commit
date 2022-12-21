@@ -33,9 +33,5 @@ npm run build ||
     false;
 )
 
-npm run add-build || {
-    echo 'Failed adding build. Please try again'
-}
-
 # If everything passes... Now we can commit
 echo 'Everything looks good! Committing changes!'
