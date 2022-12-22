@@ -53,7 +53,7 @@ export const createNotionDatabasePages = async (jobList, databaseId) => {
                     rich_text: [
                         {
                             text: {
-                                content: (_c = jobAttributes.skills) === null || _c === void 0 ? void 0 : _c.map((skill) => skill.name).join(" "),
+                                content: (_c = jobAttributes.skills) === null || _c === void 0 ? void 0 : _c.map((skill) => skill.name).join(", "),
                             },
                         },
                     ],
