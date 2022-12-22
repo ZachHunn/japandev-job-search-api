@@ -79,7 +79,9 @@ app.get(
           "Notion Database is empty. Populating datbase with jobs from japan-dev.com"
         );
         await createNotionDatabasePages(jobsFromJapanDev, databaseId);
-        res.status(200).send({data: jobsFromJapanDev});
+        res.status(200).send({
+          data: "Jobs from Japan-Dev have been added to notion database",
+        });
       } else {
         console.log(
           "Notion Datbase is not empty. Checking to see if any new jobs have been added to Japan-Dev"

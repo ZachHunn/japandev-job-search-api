@@ -71,7 +71,7 @@ export const createNotionDatabasePages = async (
               text: {
                 content: jobAttributes.skills
                   ?.map((skill) => skill.name)
-                  .join(", ") as string,
+                  .join(" ") as string
               },
             },
           ],
