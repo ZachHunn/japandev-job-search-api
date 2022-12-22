@@ -101,8 +101,8 @@ app.get(
           console.log("No new jobs have been added");
           res.status(200).send({ data: "No New Jobs Found!" });
         } else {
-          console.log(await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId))
-          
+          await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
+
           res.status(200).send({
             data: `${numberOfJobsFound} new jobs have been found! Adding them to the notion database`,
           });
