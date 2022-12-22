@@ -65,8 +65,7 @@ app.get("/api", async (req, res) => {
                 res.status(200).send({ data: "No New Jobs Found!" });
             }
             else {
-                const test = await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
-                console.log(test);
+                console.log(await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId));
                 res.status(200).send({
                     data: `${numberOfJobsFound} new jobs have been found! Adding them to the notion database`,
                 });
