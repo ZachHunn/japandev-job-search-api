@@ -43,7 +43,7 @@ app.get("/api", async (req, res) => {
         const jobsFromJapanDev = response.data.data;
         const jobIdsFromNotion = await getJobIds();
         if (jobIdsFromNotion.length === 0) {
-            console.log(databaseId, jobsFromJapanDev);
+            console.log(databaseId);
             console.log("Notion Database is empty. Populating datbase with jobs from japan-dev.com");
             await createNotionDatabasePages(jobsFromJapanDev, databaseId);
             res.status(200).send({
