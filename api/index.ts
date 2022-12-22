@@ -75,7 +75,6 @@ app.get(
       const jobIdsFromNotion = await getJobIds();
 
       if (jobIdsFromNotion.length === 0) {
-        console.log(databaseId);
         console.log(
           "Notion Database is empty. Populating datbase with jobs from japan-dev.com"
         );
