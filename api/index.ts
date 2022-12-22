@@ -72,6 +72,7 @@ app.get(
     }
     try {
       const jobsFromJapanDev: Job[] = response.data.data;
+      const numberOfJobsFromJapanDev: number = jobsFromJapanDev.length;
       const jobIdsFromNotion = await getJobIds();
 
       if (jobIdsFromNotion.length === 0) {
@@ -80,7 +81,7 @@ app.get(
         );
         await createNotionDatabasePages(jobsFromJapanDev, databaseId);
         res.status(200).send({
-          data: "Jobs from Japan-Dev have been added to notion database",
+          data: `${numberOfJobsFromJapanDev} Jobs from Japan-Dev have been added to notion database`,
         });
       } else {
         console.log(
@@ -95,13 +96,14 @@ app.get(
           }
           return job;
         });
+        const numberOfJobsFound: number = jobsNotIncludedInNotion.length;
         if (jobsNotIncludedInNotion.length === 0) {
           console.log("No new jobs have been added");
           res.status(200).send({ data: "No New Jobs Found!" });
         } else {
           await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
           res.status(200).send({
-            data: "New jobs have been found! Adding them to the notion database",
+            data: `${numberOfJobsFound} new jobs have been found! Adding them to the notion database`,
           });
         }
       }
