@@ -1,6 +1,11 @@
 {
   "version": 2,
-
+  "functions": {
+    "api/**/*": {
+      "memory": 3008,
+      "maxDuration": 60
+    }
+  },
   "routes": [
     {
       "src": "build/(.*)",
