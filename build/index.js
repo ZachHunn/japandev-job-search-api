@@ -44,7 +44,10 @@ app.get("/api", async (req, res) => {
         const jobIdsFromNotion = await getJobIds();
         if (jobIdsFromNotion.length === 0) {
             console.log("Notion Database is empty. Populating datbase with jobs from japan-dev.com");
+            const start = performance.now();
             await createNotionDatabasePages(jobsFromJapanDev, databaseId);
+            const end = performance.now();
+            console.log(`Execution time: ${end - start} ms`);
             res.status(200).send({
                 data: `${jobsFromJapanDev.length} Jobs from Japan-Dev have been added to notion database`,
             });
@@ -64,7 +67,6 @@ app.get("/api", async (req, res) => {
             }
             else {
                 await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
-                console.timeEnd("Finsihed creating jobs");
                 res.status(200).send({
                     data: `${jobsNotIncludedInNotion.length} new jobs have been found! Adding them to the notion database`,
                 });
