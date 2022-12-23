@@ -1,4 +1,4 @@
-name: daily-cron
+name: Check Japan-dev.com For New Jobs
 on:
   schedule:
     - cron: "0 */6 * * *"
