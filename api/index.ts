@@ -77,10 +77,7 @@ app.get(
         console.log(
           "Notion Database is empty. Populating datbase with jobs from japan-dev.com"
         );
-        const start = performance.now();
         await createNotionDatabasePages(jobsFromJapanDev, databaseId);
-        const end = performance.now();
-        console.log(`Execution time: ${end - start} ms`);
         res.status(200).send({
           data: `${jobsFromJapanDev.length} Jobs from Japan-Dev have been added to notion database`,
         });

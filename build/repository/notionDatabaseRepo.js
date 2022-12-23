@@ -13,10 +13,10 @@ export const retreiveNotionPageProperties = async (pageId, propertyId, pageSize 
     });
 };
 export const createNotionDatabasePages = async (jobList, databaseId) => {
-    jobList.forEach((job) => {
+    jobList.forEach(async (job) => {
         var _a, _b, _c, _d, _e, _f;
         const jobAttributes = job.attributes;
-        notion.pages.create({
+        return await notion.pages.create({
             parent: { database_id: databaseId },
             properties: {
                 ["ID"]: {
