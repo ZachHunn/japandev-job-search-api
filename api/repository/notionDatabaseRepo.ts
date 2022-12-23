@@ -30,9 +30,9 @@ export const createNotionDatabasePages = async (
   jobList: Job[],
   databaseId: string
 ) => {
-  const start = performance.now();
+console.log(jobList)
+console.log(databaseId)
   jobList.forEach(async (job: Job) => {
-    // console.log("Beginning of the foreach");
     const jobAttributes = job.attributes;
     await notion.pages.create({
       parent: { database_id: databaseId },
@@ -180,6 +180,4 @@ export const createNotionDatabasePages = async (
     });
     console.log(`After the foreach! Created entry for ${jobAttributes.title}`);
   });
-  const end = performance.now();
-  console.log(`Execution time: ${end - start} ms`);
 };
