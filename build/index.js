@@ -32,7 +32,7 @@ async function getJobIds() {
 }
 app.get("/api", async (req, res) => {
     if (req.method !== "GET") {
-        return res.status(405).json({ err: "Method Not Allowed" });
+        return res.status(405).send({ err: "Method Not Allowed" });
     }
     const response = await axios.get(japanDevUrl);
     if (response.status !== 200) {
@@ -41,13 +41,12 @@ app.get("/api", async (req, res) => {
     }
     try {
         const jobsFromJapanDev = response.data.data;
-        const numberOfJobsFromJapanDev = jobsFromJapanDev.length;
         const jobIdsFromNotion = await getJobIds();
         if (jobIdsFromNotion.length === 0) {
             console.log("Notion Database is empty. Populating datbase with jobs from japan-dev.com");
             await createNotionDatabasePages(jobsFromJapanDev, databaseId);
             res.status(200).send({
-                data: `${numberOfJobsFromJapanDev} Jobs from Japan-Dev have been added to notion database`,
+                data: `${jobsFromJapanDev.length} Jobs from Japan-Dev have been added to notion database`,
             });
         }
         else {
@@ -59,7 +58,6 @@ app.get("/api", async (req, res) => {
                 }
                 return job;
             });
-            const numberOfJobsFound = jobsNotIncludedInNotion.length;
             if (jobsNotIncludedInNotion.length === 0) {
                 console.log("No new jobs have been added");
                 res.status(200).send({ data: "No New Jobs Found!" });
@@ -67,7 +65,7 @@ app.get("/api", async (req, res) => {
             else {
                 await createNotionDatabasePages(jobsNotIncludedInNotion, databaseId);
                 res.status(200).send({
-                    data: `${numberOfJobsFound} new jobs have been found! Adding them to the notion database`,
+                    data: `${jobsNotIncludedInNotion.length} new jobs have been found! Adding them to the notion database`,
                 });
             }
         }

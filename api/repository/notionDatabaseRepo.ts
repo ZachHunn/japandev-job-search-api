@@ -32,7 +32,6 @@ export const createNotionDatabasePages = async (
 ) => {
   jobList.forEach(async (job: Job) => {
     const jobAttributes = job.attributes;
-    // console.log(`Creating entry for ${jobAttributes.title}`);
     await notion.pages.create({
       parent: { database_id: databaseId },
       properties: {
@@ -177,5 +176,6 @@ export const createNotionDatabasePages = async (
         },
       },
     });
+  console.log(`Created entry for ${jobAttributes.title}`);
   });
 };
