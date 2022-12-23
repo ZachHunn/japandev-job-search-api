@@ -151,7 +151,7 @@ export const createNotionDatabasePages = async (jobList, databaseId) => {
                 },
             },
         });
-        // console.log(`After the foreach! Created entry for ${jobAttributes.title}`);
+        console.log(`After the foreach! Created entry for ${jobAttributes.title}`);
     });
     const end = performance.now();
     console.log(`Execution time: ${end - start} ms`);
