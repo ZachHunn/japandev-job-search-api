@@ -13,10 +13,10 @@ export const retreiveNotionPageProperties = async (pageId, propertyId, pageSize 
     });
 };
 export const createNotionDatabasePages = async (jobList, databaseId) => {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g;
     for (const job of jobList) {
         const jobAttributes = job.attributes;
-        console.log(`Creating entry for ${jobAttributes.title}`);
+        console.log(`Creating entry for ${jobAttributes.title} at ${(_a = jobAttributes.company) === null || _a === void 0 ? void 0 : _a.name}`);
         return await notion.pages.create({
             parent: { database_id: databaseId },
             properties: {
@@ -27,7 +27,7 @@ export const createNotionDatabasePages = async (jobList, databaseId) => {
                     rich_text: [
                         {
                             text: {
-                                content: (_a = jobAttributes.company) === null || _a === void 0 ? void 0 : _a.name,
+                                content: (_b = jobAttributes.company) === null || _b === void 0 ? void 0 : _b.name,
                             },
                         },
                     ],
@@ -36,7 +36,7 @@ export const createNotionDatabasePages = async (jobList, databaseId) => {
                     rich_text: [
                         {
                             text: {
-                                content: (_b = jobAttributes.company) === null || _b === void 0 ? void 0 : _b.location,
+                                content: (_c = jobAttributes.company) === null || _c === void 0 ? void 0 : _c.location,
                             },
                         },
                     ],
@@ -54,7 +54,7 @@ export const createNotionDatabasePages = async (jobList, databaseId) => {
                     rich_text: [
                         {
                             text: {
-                                content: (_c = jobAttributes.skills) === null || _c === void 0 ? void 0 : _c.map((skill) => skill.name).join(" "),
+                                content: (_d = jobAttributes.skills) === null || _d === void 0 ? void 0 : _d.map((skill) => skill.name).join(" "),
                             },
                         },
                     ],
@@ -97,7 +97,7 @@ export const createNotionDatabasePages = async (jobList, databaseId) => {
                     rich_text: [
                         {
                             text: {
-                                content: (_d = jobAttributes.japanese_level_enum) === null || _d === void 0 ? void 0 : _d.replaceAll("_", " "),
+                                content: (_e = jobAttributes.japanese_level_enum) === null || _e === void 0 ? void 0 : _e.replaceAll("_", " "),
                             },
                         },
                     ],
@@ -106,7 +106,7 @@ export const createNotionDatabasePages = async (jobList, databaseId) => {
                     rich_text: [
                         {
                             text: {
-                                content: (_e = jobAttributes.remote_level) === null || _e === void 0 ? void 0 : _e.replaceAll("_", " "),
+                                content: (_f = jobAttributes.remote_level) === null || _f === void 0 ? void 0 : _f.replaceAll("_", " "),
                             },
                         },
                     ],
@@ -115,7 +115,7 @@ export const createNotionDatabasePages = async (jobList, databaseId) => {
                     rich_text: [
                         {
                             text: {
-                                content: (_f = jobAttributes.candidate_location) === null || _f === void 0 ? void 0 : _f.replaceAll("_", " "),
+                                content: (_g = jobAttributes.candidate_location) === null || _g === void 0 ? void 0 : _g.replaceAll("_", " "),
                             },
                         },
                     ],
