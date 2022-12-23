@@ -15,6 +15,7 @@ async function getJobIds() {
     let propertyIdQuery = [];
     let results = [];
     let databaseQuery = await queryNotionDatabase(databaseId);
+    console.log(databaseQuery);
     results = [...databaseQuery.results];
     while (databaseQuery.has_more) {
         const nextCursor = databaseQuery.next_cursor;
@@ -25,6 +26,7 @@ async function getJobIds() {
         .map((page) => page.id)
         .map(async (pageId) => {
         const page = await retreiveNotionPageProperties(pageId, propertyId);
+        console.log(page);
         const jobId = Object.values(page).pop();
         propertyIdQuery = [...propertyIdQuery, jobId];
     }));
@@ -44,7 +46,7 @@ app.get("/api", async (req, res) => {
         const jobIdsFromNotion = await getJobIds();
         if (jobIdsFromNotion.length === 0) {
             console.log("Notion Database is empty. Populating datbase with jobs from japan-dev.com");
-            await createNotionDatabasePages(jobsFromJapanDev, databaseId);
+            // await createNotionDatabasePages(jobsFromJapanDev, databaseId);
             res.status(200).send({
                 data: `${jobsFromJapanDev.length} Jobs from Japan-Dev have been added to notion database`,
             });
