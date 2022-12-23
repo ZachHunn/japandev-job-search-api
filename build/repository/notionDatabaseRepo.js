@@ -13,7 +13,7 @@ export const retreiveNotionPageProperties = async (pageId, propertyId, pageSize 
     });
 };
 export const createNotionDatabasePages = async (jobList, databaseId) => {
-    console.log("Before the foreach");
+    console.log("Before");
     jobList.forEach(async (job) => {
         var _a, _b, _c, _d, _e, _f;
         console.log("Beginning of the foreach");
