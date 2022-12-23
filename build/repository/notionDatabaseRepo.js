@@ -13,9 +13,10 @@ export const retreiveNotionPageProperties = async (pageId, propertyId, pageSize 
     });
 };
 export const createNotionDatabasePages = async (jobList, databaseId) => {
-    jobList.forEach(async (job) => {
-        var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f;
+    for (const job of jobList) {
         const jobAttributes = job.attributes;
+        console.log(`Creating entry for ${jobAttributes.title}`);
         return await notion.pages.create({
             parent: { database_id: databaseId },
             properties: {
@@ -149,7 +150,6 @@ export const createNotionDatabasePages = async (jobList, databaseId) => {
                 },
             },
         });
-        console.log(`After the foreach! Created entry for ${jobAttributes.title}`);
-    });
+    }
 };
 //# sourceMappingURL=notionDatabaseRepo.js.map

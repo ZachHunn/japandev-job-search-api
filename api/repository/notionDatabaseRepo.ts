@@ -30,8 +30,9 @@ export const createNotionDatabasePages = async (
   jobList: Job[],
   databaseId: string
 ) => {
-  jobList.forEach(async (job: Job) => {
+  for(const job of jobList) {
     const jobAttributes = job.attributes;
+    console.log(`Creating entry for ${jobAttributes.title}`);
     return await notion.pages.create({
       parent: { database_id: databaseId },
       properties: {
@@ -176,6 +177,6 @@ export const createNotionDatabasePages = async (
         },
       },
     });
-    console.log(`After the foreach! Created entry for ${jobAttributes.title}`);
-  });
+   
+  }
 };
