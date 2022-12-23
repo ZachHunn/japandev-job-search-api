@@ -95,7 +95,7 @@ app.get(
           }
           return job;
         });
-       
+
         if (jobsNotIncludedInNotion.length === 0) {
           console.log("No new jobs have been added");
           res.status(200).send({ data: "No New Jobs Found!" });
