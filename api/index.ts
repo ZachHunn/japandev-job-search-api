@@ -58,7 +58,7 @@ type MyReponse<T> =
   | { data: T };
 
 app.get(
-  "/api",
+  "/",
   async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
     if (req.method !== "GET") {
       return res.status(405).send({ err: "Method Not Allowed" });
@@ -86,7 +86,7 @@ app.get(
           "Notion Datbase is not empty. Checking to see if any new jobs have been added to Japan-Dev"
         );
 
-        const jobsNotIncludedInNotion = jobsFromJapanDev.filter((job) => {
+        const jobsNotIncludedInNotion: Job[] = jobsFromJapanDev.filter((job) => {
           const jobId = job.attributes.id as unknown as number;
 
           if (jobIdsFromNotion.includes(jobId)) {
