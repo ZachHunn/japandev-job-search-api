@@ -30,7 +30,7 @@ async function getJobIds() {
     }));
     return propertyIdQuery;
 }
-app.get("/", async (req, res) => {
+app.get("/api", async (req, res) => {
     if (req.method !== "GET") {
         return res.status(405).send({ err: "Method Not Allowed" });
     }
