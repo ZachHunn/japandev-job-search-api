@@ -6,7 +6,7 @@ echo "the pre-commit hook ran 🚀"
 npm run check-format ||
 (
     echo 'Prettier formatting failed. Formatting files'
-    npx prettier --write .
+    
 )
 
 # Check ESLint Standards
