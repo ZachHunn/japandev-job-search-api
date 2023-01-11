@@ -1,7 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import express from "express";
-import { queryNotionDatabase, retreiveNotionPageProperties, createNotionDatabasePages, } from "../api/repository/notionDatabaseRepo";
+import { queryNotionDatabase, retreiveNotionPageProperties, createNotionDatabasePages, } from "./notionDatabaseRepo";
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;

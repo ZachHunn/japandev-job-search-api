@@ -9,7 +9,7 @@ import {
   queryNotionDatabase,
   retreiveNotionPageProperties,
   createNotionDatabasePages,
-} from "../api/repository/notionDatabaseRepo";
+} from "./notionDatabaseRepo";
 import { Job } from "./types";
 
 dotenv.config();

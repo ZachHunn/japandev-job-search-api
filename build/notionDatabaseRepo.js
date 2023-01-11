@@ -1,4 +1,4 @@
-import { notion } from "../utils/notionClient";
+import { notion } from "./utils/notionClient";
 export const queryNotionDatabase = async (databaseId, startCursor) => {
     return await notion.databases.query({
         database_id: databaseId,
