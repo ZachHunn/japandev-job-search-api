@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`App is listening on port ${port}`);
 });
-const japanDevUrl = process.env.JAPAN_DEV_URL;
+const japanDevUrl = "https://api.japan-dev.com/api/v1/jobs?limit=300";
 const databaseId = process.env.NOTION_DATABASE_ID;
 const propertyId = process.env.NOTION_ID_PROPERTY;
 async function getJobIds() {
