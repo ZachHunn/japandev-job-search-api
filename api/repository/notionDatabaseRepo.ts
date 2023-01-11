@@ -2,8 +2,8 @@ import {
   QueryDatabaseResponse,
   GetPagePropertyResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import { notion } from "./utils/notionClient";
-import { Job } from "./types";
+import { notion } from "../utils/notionClient";
+import { Job } from "../types";
 
 export const queryNotionDatabase = async (
   databaseId: string,
