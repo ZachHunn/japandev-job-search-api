@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://ZachHunn-s-workspace-867elc.us-west-2.xata.sh/db/japan-dev",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}

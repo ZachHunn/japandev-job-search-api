@@ -9,4 +9,4 @@ jobs:
       - name: Check for jobs on Japan-dev.com
         run: |
           curl --request GET \
-          --url 'https://japandev-jobs-notion.vercel.app/api' \
+          --url 'https://japandev-jobs-notion.vercel.app/api/jobs' \

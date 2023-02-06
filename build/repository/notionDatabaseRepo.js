@@ -151,4 +151,25 @@ export const createNotionDatabasePages = async (jobList, databaseId) => {
         });
     }
 };
+// async function getJobIds() {
+//   let propertyIdQuery: number[] = [];
+//   let results: (PageObjectResponse | PartialPageObjectResponse)[] = [];
+//   let databaseQuery = await queryNotionDatabase(databaseId);
+//   results = [...databaseQuery.results];
+//   while (databaseQuery.has_more) {
+//     const nextCursor = databaseQuery.next_cursor as string;
+//     databaseQuery = await queryNotionDatabase(databaseId, nextCursor);
+//     results = [...results, ...databaseQuery.results];
+//   }
+//   await Promise.all(
+//     results
+//       .map((page) => page.id)
+//       .map(async (pageId) => {
+//         const page = await retreiveNotionPageProperties(pageId, propertyId);
+//         const jobId: number = Object.values(page).pop();
+//         propertyIdQuery = [...propertyIdQuery, jobId];
+//       })
+//   );
+//   return propertyIdQuery;
+// }
 //# sourceMappingURL=notionDatabaseRepo.js.map
