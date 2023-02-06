@@ -39,7 +39,7 @@ app.get(
     }
     try {
       const jobsFromJapanDev: Job[] = response.data.data;
-      const jobIdsFromXata = jobsFromXata.map((job) => job.jobId);
+      const jobIdsFromXata = (await jobsFromXata).map((job) => job.jobId);
 
       if (jobIdsFromXata.length === 0) {
         console.log(

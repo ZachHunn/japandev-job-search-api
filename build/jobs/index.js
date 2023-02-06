@@ -20,7 +20,7 @@ app.get("/api/jobs", async (req, res) => {
     }
     try {
         const jobsFromJapanDev = response.data.data;
-        const jobIdsFromXata = jobsFromXata.map((job) => job.jobId);
+        const jobIdsFromXata = (await jobsFromXata).map((job) => job.jobId);
         if (jobIdsFromXata.length === 0) {
             console.log("Xata Database is empty. Populating datbase with jobs from japan-dev.com");
             await createManyJobs(jobsFromJapanDev);
