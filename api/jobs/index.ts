@@ -38,6 +38,8 @@ const getJobsFromJapanDev = async (): Promise<Job[]> => {
 };
 
 app.get("/api/jobs", async (req: Request, res: Response<MyReponse<Jobs[]>>) => {
+  res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
+
   if (req.method !== "GET") {
     throw new Error("Method not allowed");
   }
