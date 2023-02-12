@@ -6,11 +6,6 @@
       "maxDuration": 60
     }
   },
-  "routes": [
-    {
-      "src": "build/(.*)",
-      "dest": "build/index.js"
-    }
-  ],
+
   "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
 }
