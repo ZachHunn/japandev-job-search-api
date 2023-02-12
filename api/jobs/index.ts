@@ -36,8 +36,8 @@ const getJobsFromJapanDev = async (): Promise<Job[]> => {
   return response.data.data;
 };
 
-let jobList = await getJobsFromXata();
-const jobIdsFromXata = jobList.map((job) => job.jobId);
+const jobListFromXata = await getJobsFromXata();
+const jobIdsFromXata = jobListFromXata.map((job) => job.jobId);
 
 app.get("/api/jobs", async (req: Request, res: Response<MyReponse<Jobs[]>>) => {
   if (req.method !== "GET") {
@@ -45,7 +45,7 @@ app.get("/api/jobs", async (req: Request, res: Response<MyReponse<Jobs[]>>) => {
   }
 
   try {
-    jobList = await getJobsFromXata();
+    const jobList = await getJobsFromXata();
     res.status(200).json({ data: jobList });
   } catch (e) {
     res.status(500).send({ err: "Error getting jobs from the database" });
@@ -113,7 +113,7 @@ app.delete(
     const jobsFromJapanDev = await getJobsFromJapanDev();
     const jobIdsFromJapanDev = jobsFromJapanDev.map((job) => job.attributes.id);
     const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(
-      jobList,
+      jobListFromXata,
       jobIdsFromJapanDev as number[]
     );
 
