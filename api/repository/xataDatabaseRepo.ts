@@ -5,6 +5,11 @@ const xataClient = getXataClient();
 
 export const getJobsFromXata = async () => await xataClient.db.Jobs.getAll();
 
+export const getJobIdsFromXata = async () => {
+  const jobList = await getJobsFromXata();
+  return jobList.map((job) => job.jobId);
+};
+
 export const createJob = async (job: Job): Promise<void> => {
   const jobAttributes = job.attributes;
   await xataClient.db.Jobs.create({

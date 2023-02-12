@@ -1,7 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import express from "express";
-import { createJob, createManyJobs, deleteManyJobs, getJobsFromXata, } from "../repository/xataDatabaseRepo";
+import { createJob, createManyJobs, deleteManyJobs, getJobsFromXata, getJobIdsFromXata, } from "../repository/xataDatabaseRepo";
 import { getJobsRemovedFromJapanDev } from "../utils/jobDifference";
 dotenv.config();
 const app = express();
@@ -17,8 +17,6 @@ const getJobsFromJapanDev = async () => {
     }
     return response.data.data;
 };
-const jobListFromXata = getJobsFromXata();
-const jobIdsFromXata = (await jobListFromXata).map((job) => job.jobId);
 app.get("/api/jobs", async (req, res) => {
     if (req.method !== "GET") {
         throw new Error("Method not allowed");
@@ -36,6 +34,7 @@ app.post("/api/jobs/create", async (req, res) => {
         throw new Error("Method not allowed");
     }
     try {
+        const jobIdsFromXata = await getJobIdsFromXata();
         const jobsFromJapanDev = await getJobsFromJapanDev();
         if (jobIdsFromXata.length === 0) {
             console.log("Xata Database is empty. Populating datbase with jobs from japan-dev.com");
@@ -82,8 +81,8 @@ app.delete("/api/jobs/delete", async (req, res) => {
     }
     const jobsFromJapanDev = await getJobsFromJapanDev();
     const jobIdsFromJapanDev = jobsFromJapanDev.map((job) => job.attributes.id);
-    const jobList = await jobListFromXata;
-    const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(jobList, jobIdsFromJapanDev);
+    const jobListFromXata = await getJobsFromXata();
+    const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(jobListFromXata, jobIdsFromJapanDev);
     if (jobsRemovedFromJapanDev.length === 0) {
         res.json({
             data: `There are ${jobsRemovedFromJapanDev.length} jobs to delete from the database`,

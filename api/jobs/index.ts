@@ -6,6 +6,7 @@ import {
   createManyJobs,
   deleteManyJobs,
   getJobsFromXata,
+  getJobIdsFromXata,
 } from "../repository/xataDatabaseRepo";
 import { Job } from "../types";
 import { getJobsRemovedFromJapanDev } from "../utils/jobDifference";
@@ -36,9 +37,6 @@ const getJobsFromJapanDev = async (): Promise<Job[]> => {
   return response.data.data;
 };
 
-const jobListFromXata = getJobsFromXata();
-const jobIdsFromXata = (await jobListFromXata).map((job) => job.jobId);
-
 app.get("/api/jobs", async (req: Request, res: Response<MyReponse<Jobs[]>>) => {
   if (req.method !== "GET") {
     throw new Error("Method not allowed");
@@ -59,7 +57,9 @@ app.post(
     }
 
     try {
+      const jobIdsFromXata = await getJobIdsFromXata();
       const jobsFromJapanDev = await getJobsFromJapanDev();
+
       if (jobIdsFromXata.length === 0) {
         console.log(
           "Xata Database is empty. Populating datbase with jobs from japan-dev.com"
@@ -112,9 +112,10 @@ app.delete(
     }
     const jobsFromJapanDev = await getJobsFromJapanDev();
     const jobIdsFromJapanDev = jobsFromJapanDev.map((job) => job.attributes.id);
-    const jobList = await jobListFromXata;
+    const jobListFromXata = await getJobsFromXata();
+
     const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(
-      jobList,
+      jobListFromXata,
       jobIdsFromJapanDev as number[]
     );
 
