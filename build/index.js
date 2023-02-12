@@ -17,6 +17,7 @@ const getJobsFromJapanDev = async () => {
     }
     return response.data.data;
 };
+app.use("/", express.static("public"));
 app.get("/api/jobs", async (req, res) => {
     res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
     if (req.method !== "GET") {
