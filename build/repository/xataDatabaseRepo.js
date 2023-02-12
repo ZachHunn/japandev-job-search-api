@@ -51,4 +51,12 @@ export const createManyJobs = async (jobList) => {
         });
     }
 };
+export const deleteJob = async (jobId) => {
+    await xataClient.db.Jobs.delete(jobId);
+};
+export const deleteManyJobs = async (jobIds) => {
+    for (const jobId of jobIds) {
+        await xataClient.db.Jobs.delete(jobId);
+    }
+};
 //# sourceMappingURL=xataDatabaseRepo.js.map

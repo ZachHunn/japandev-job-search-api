@@ -1,0 +1,1 @@
+{"version":3,"file":"jobDifference.js","sourceRoot":"","sources":["../../api/utils/jobDifference.ts"],"names":[],"mappings":"AAEA,MAAM,CAAC,MAAM,0BAA0B,GAAG,CACxC,cAAsB,EACtB,mBAA6B,EAC7B,EAAE;IACF,OAAO,cAAc,CAAC,MAAM,CAC1B,CAAC,GAAG,EAAE,EAAE,CAAC,CAAC,mBAAmB,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAe,CAAC,CAC5D,CAAC;AACJ,CAAC,CAAC"}

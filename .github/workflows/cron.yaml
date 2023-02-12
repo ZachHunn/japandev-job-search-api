@@ -2,6 +2,7 @@ name: Check Japan-dev.com For New Jobs
 on:
   schedule:
     - cron: "0 */6 * * *"
+    - cron: "0 1 * * *"
 jobs:
   cron:
     runs-on: ubuntu-latest
@@ -10,3 +11,7 @@ jobs:
         run: |
           curl --request GET \
           --url 'https://japandev-jobs-notion.vercel.app/api/jobs' \
+      - name: Delete Jobs from Xata Database
+        run: |
+          curl --request DELETE \
+          --url 'https://japandev-jobs-notion.vercel.app/api/jobs/delete' \

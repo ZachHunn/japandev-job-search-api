@@ -5,7 +5,7 @@ const xataClient = getXataClient();
 
 export const jobsFromXata = xataClient.db.Jobs.getAll();
 
-export const createJob = async (job: Job) => {
+export const createJob = async (job: Job): Promise<void> => {
   const jobAttributes = job.attributes;
   await xataClient.db.Jobs.create({
     jobId: jobAttributes.id,
@@ -29,7 +29,7 @@ export const createJob = async (job: Job) => {
   });
 };
 
-export const createManyJobs = async (jobList: Job[]) => {
+export const createManyJobs = async (jobList: Job[]): Promise<void> => {
   for (const job of jobList) {
     const jobAttributes = job.attributes;
     await xataClient.db.Jobs.create({
@@ -52,5 +52,15 @@ export const createManyJobs = async (jobList: Job[]) => {
       published: jobAttributes.published_at,
       updated: jobAttributes.updated_at,
     });
+  }
+};
+
+export const deleteJob = async (jobId: string): Promise<void> => {
+  await xataClient.db.Jobs.delete(jobId);
+};
+
+export const deleteManyJobs = async (jobIds: string[]): Promise<void> => {
+  for (const jobId of jobIds) {
+    await xataClient.db.Jobs.delete(jobId);
   }
 };

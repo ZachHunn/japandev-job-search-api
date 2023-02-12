@@ -4,9 +4,11 @@ import express, { Express, Request, Response } from "express";
 import {
   createJob,
   createManyJobs,
+  deleteManyJobs,
   jobsFromXata,
 } from "../repository/xataDatabaseRepo";
 import { Job } from "../types";
+import { getJobsRemovedFromJapanDev } from "../utils/jobDifference";
 
 dotenv.config();
 
@@ -17,13 +19,16 @@ app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
 });
 
-const japanDevUrl = "https://api.japan-dev.com/api/v1/jobs?limit=300";
-
 type MyReponse<T> =
   | {
       err: string;
     }
   | { data: T };
+
+const japanDevUrl = "https://api.japan-dev.com/api/v1/jobs?limit=300";
+const response = await axios.get(japanDevUrl);
+const jobsFromJapanDev: Job[] = response.data.data;
+const jobIdsFromXata = (await jobsFromXata).map((job) => job.jobId);
 
 app.get(
   "/api/jobs",
@@ -31,16 +36,12 @@ app.get(
     if (req.method !== "GET") {
       return res.status(405).send({ err: "Method Not Allowed" });
     }
-    const response = await axios.get(japanDevUrl);
 
     if (response.status !== 200) {
       console.log(response.status);
       throw new Error("Something went wrong trying to get the resource");
     }
     try {
-      const jobsFromJapanDev: Job[] = response.data.data;
-      const jobIdsFromXata = (await jobsFromXata).map((job) => job.jobId);
-
       if (jobIdsFromXata.length === 0) {
         console.log(
           "Xata Database is empty. Populating datbase with jobs from japan-dev.com"
@@ -77,7 +78,7 @@ app.get(
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res.status(500).json({
         err: "Something went wrong! Xata Database could not be updated!",
       });
@@ -85,4 +86,38 @@ app.get(
   }
 );
 
+app.delete(
+  "/api/jobs/delete",
+  async (req: Request, res: Response<MyReponse<Job[] | string>>) => {
+    if (req.method !== "DELETE") {
+      return res.status(405).send({ err: "Method Not Allowed" });
+    }
+    const jobIdsFromJapanDev = jobsFromJapanDev.map((job) => job.attributes.id);
+    const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(
+      await jobsFromXata,
+      jobIdsFromJapanDev as number[]
+    );
+
+    if (jobsRemovedFromJapanDev.length === 0) {
+      res.send({
+        data: `There are ${jobsRemovedFromJapanDev.length} jobs to delete from the database`,
+      });
+    } else {
+      try {
+        const jobIdsToRemoveFromXata = jobsRemovedFromJapanDev.map(
+          (job) => job.id
+        );
+        await deleteManyJobs(jobIdsToRemoveFromXata);
+        res.status(200).send({
+          data: `${jobIdsToRemoveFromXata.length} jobs have been removed from the Xata Database`,
+        });
+      } catch (error) {
+        console.error(error);
+        res
+          .status(500)
+          .json({ err: "There was an error deleting jobs from the database" });
+      }
+    }
+  }
+);
 export default app;
