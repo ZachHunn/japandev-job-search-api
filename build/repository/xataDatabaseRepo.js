@@ -1,6 +1,6 @@
 import { getXataClient } from "../src/xata";
 const xataClient = getXataClient();
-export const jobsFromXata = xataClient.db.Jobs.getAll();
+export const getJobsFromXata = async () => await xataClient.db.Jobs.getAll();
 export const createJob = async (job) => {
     var _a, _b, _c, _d, _e, _f;
     const jobAttributes = job.attributes;

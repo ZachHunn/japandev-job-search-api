@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Check for jobs on Japan-dev.com
         run: |
-          curl --request GET \
-          --url 'https://japandev-jobs-notion.vercel.app/api/jobs' \
+          curl --request POST \
+          --url 'https://japandev-jobs-notion.vercel.app/api/jobs/create' \
       - name: Delete Jobs from Xata Database
         run: |
           curl --request DELETE \

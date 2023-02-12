@@ -3,7 +3,7 @@ import { Job } from "../types";
 
 const xataClient = getXataClient();
 
-export const jobsFromXata = xataClient.db.Jobs.getAll();
+export const getJobsFromXata = async () => await xataClient.db.Jobs.getAll();
 
 export const createJob = async (job: Job): Promise<void> => {
   const jobAttributes = job.attributes;

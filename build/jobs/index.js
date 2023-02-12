@@ -1,7 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import express from "express";
-import { createJob, createManyJobs, deleteManyJobs, jobsFromXata, } from "../repository/xataDatabaseRepo";
+import { createJob, createManyJobs, deleteManyJobs, getJobsFromXata, } from "../repository/xataDatabaseRepo";
 import { getJobsRemovedFromJapanDev } from "../utils/jobDifference";
 dotenv.config();
 const app = express();
@@ -10,18 +10,33 @@ app.listen(port, () => {
     console.log(`App is listening on port ${port}`);
 });
 const japanDevUrl = "https://api.japan-dev.com/api/v1/jobs?limit=300";
-const response = await axios.get(japanDevUrl);
-const jobsFromJapanDev = response.data.data;
-const jobIdsFromXata = (await jobsFromXata).map((job) => job.jobId);
+const getJobsFromJapanDev = async () => {
+    const response = await axios.get(japanDevUrl);
+    if (response.status !== 200) {
+        throw new Error("Something went wrong trying to jobs from Japan Dev");
+    }
+    return response.data.data;
+};
+let jobList = await getJobsFromXata();
+const jobIdsFromXata = jobList.map((job) => job.jobId);
 app.get("/api/jobs", async (req, res) => {
     if (req.method !== "GET") {
-        return res.status(405).send({ err: "Method Not Allowed" });
-    }
-    if (response.status !== 200) {
-        console.log(response.status);
-        throw new Error("Something went wrong trying to get the resource");
+        throw new Error("Method not allowed");
     }
     try {
+        jobList = await getJobsFromXata();
+        res.status(200).json({ data: jobList });
+    }
+    catch (e) {
+        res.status(500).send({ err: "Error getting jobs from the database" });
+    }
+});
+app.post("/api/jobs/create", async (req, res) => {
+    if (req.method !== "POST") {
+        throw new Error("Method not allowed");
+    }
+    try {
+        const jobsFromJapanDev = await getJobsFromJapanDev();
         if (jobIdsFromXata.length === 0) {
             console.log("Xata Database is empty. Populating datbase with jobs from japan-dev.com");
             await createManyJobs(jobsFromJapanDev);
@@ -40,7 +55,7 @@ app.get("/api/jobs", async (req, res) => {
             });
             if (jobsNotIncludedInXata.length === 0) {
                 console.log("No new jobs have been added");
-                res.status(200).send({ data: "No New Jobs Found!" });
+                res.status(200).json({ data: "No New Jobs Found!" });
             }
             else {
                 if (jobsNotIncludedInXata.length === 1) {
@@ -48,7 +63,7 @@ app.get("/api/jobs", async (req, res) => {
                     await createJob(job);
                 }
                 await createManyJobs(jobsNotIncludedInXata);
-                res.status(200).send({
+                res.status(200).json({
                     data: `${jobsNotIncludedInXata.length} new jobs have been found! Adding them to the xata database`,
                 });
             }
@@ -63,12 +78,13 @@ app.get("/api/jobs", async (req, res) => {
 });
 app.delete("/api/jobs/delete", async (req, res) => {
     if (req.method !== "DELETE") {
-        return res.status(405).send({ err: "Method Not Allowed" });
+        throw new Error("Method not allowed");
     }
+    const jobsFromJapanDev = await getJobsFromJapanDev();
     const jobIdsFromJapanDev = jobsFromJapanDev.map((job) => job.attributes.id);
-    const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(await jobsFromXata, jobIdsFromJapanDev);
+    const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(jobList, jobIdsFromJapanDev);
     if (jobsRemovedFromJapanDev.length === 0) {
-        res.send({
+        res.json({
             data: `There are ${jobsRemovedFromJapanDev.length} jobs to delete from the database`,
         });
     }
