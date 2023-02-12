@@ -9,7 +9,6 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`App is listening on port ${port}`);
 });
-app.use("/", express.static("public"));
 const japanDevUrl = "https://api.japan-dev.com/api/v1/jobs?limit=300";
 const getJobsFromJapanDev = async () => {
     const response = await axios.get(japanDevUrl);

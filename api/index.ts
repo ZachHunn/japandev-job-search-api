@@ -21,8 +21,6 @@ app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
 });
 
-app.use("/", express.static("public"));
-
 type MyReponse<T> =
   | {
       err: string;
