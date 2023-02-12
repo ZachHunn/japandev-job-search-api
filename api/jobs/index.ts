@@ -112,8 +112,9 @@ app.delete(
     }
     const jobsFromJapanDev = await getJobsFromJapanDev();
     const jobIdsFromJapanDev = jobsFromJapanDev.map((job) => job.attributes.id);
+    const jobList = await jobListFromXata;
     const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(
-      await jobListFromXata,
+      jobList,
       jobIdsFromJapanDev as number[]
     );
 

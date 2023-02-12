@@ -82,7 +82,8 @@ app.delete("/api/jobs/delete", async (req, res) => {
     }
     const jobsFromJapanDev = await getJobsFromJapanDev();
     const jobIdsFromJapanDev = jobsFromJapanDev.map((job) => job.attributes.id);
-    const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(await jobListFromXata, jobIdsFromJapanDev);
+    const jobList = await jobListFromXata;
+    const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(jobList, jobIdsFromJapanDev);
     if (jobsRemovedFromJapanDev.length === 0) {
         res.json({
             data: `There are ${jobsRemovedFromJapanDev.length} jobs to delete from the database`,
