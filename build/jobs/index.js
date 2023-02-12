@@ -85,7 +85,7 @@ app.delete("/api/jobs/delete", async (req, res) => {
     const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(jobListFromXata, jobIdsFromJapanDev);
     if (jobsRemovedFromJapanDev.length === 0) {
         res.json({
-            data: `There are ${jobsRemovedFromJapanDev.length} jobs to delete from the database`,
+            data: `There are ${jobsRemovedFromJapanDev.length} stale jobs to delete from the database`,
         });
     }
     else {
@@ -93,7 +93,7 @@ app.delete("/api/jobs/delete", async (req, res) => {
             const jobIdsToRemoveFromXata = jobsRemovedFromJapanDev.map((job) => job.id);
             await deleteManyJobs(jobIdsToRemoveFromXata);
             res.status(200).send({
-                data: `${jobIdsToRemoveFromXata.length} jobs have been removed from the Xata Database`,
+                data: `${jobIdsToRemoveFromXata.length} stale jobs have been removed from the Xata Database`,
             });
         }
         catch (error) {

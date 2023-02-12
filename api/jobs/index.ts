@@ -121,7 +121,7 @@ app.delete(
 
     if (jobsRemovedFromJapanDev.length === 0) {
       res.json({
-        data: `There are ${jobsRemovedFromJapanDev.length} jobs to delete from the database`,
+        data: `There are ${jobsRemovedFromJapanDev.length} stale jobs to delete from the database`,
       });
     } else {
       try {
@@ -130,7 +130,7 @@ app.delete(
         );
         await deleteManyJobs(jobIdsToRemoveFromXata);
         res.status(200).send({
-          data: `${jobIdsToRemoveFromXata.length} jobs have been removed from the Xata Database`,
+          data: `${jobIdsToRemoveFromXata.length} stale jobs have been removed from the Xata Database`,
         });
       } catch (error) {
         console.error(error);
