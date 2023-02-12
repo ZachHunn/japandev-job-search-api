@@ -7,10 +7,10 @@ import {
   deleteManyJobs,
   getJobsFromXata,
   getJobIdsFromXata,
-} from "../repository/xataDatabaseRepo";
-import { Job } from "../types";
-import { getJobsRemovedFromJapanDev } from "../utils/jobDifference";
-import { Jobs } from "../src/xata";
+} from "./repository/xataDatabaseRepo";
+import { Job } from "./types";
+import { getJobsRemovedFromJapanDev } from "./utils/jobDifference";
+import { Jobs } from "./src/xata";
 
 dotenv.config();
 

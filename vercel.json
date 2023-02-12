@@ -7,5 +7,5 @@
     }
   },
 
-  "rewrites": [{ "source": "/api/jobs(.*)", "destination": "/api" }]
+  "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
 }

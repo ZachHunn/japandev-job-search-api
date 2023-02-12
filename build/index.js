@@ -1,8 +1,8 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import express from "express";
-import { createJob, createManyJobs, deleteManyJobs, getJobsFromXata, getJobIdsFromXata, } from "../repository/xataDatabaseRepo";
-import { getJobsRemovedFromJapanDev } from "../utils/jobDifference";
+import { createJob, createManyJobs, deleteManyJobs, getJobsFromXata, getJobIdsFromXata, } from "./repository/xataDatabaseRepo";
+import { getJobsRemovedFromJapanDev } from "./utils/jobDifference";
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
