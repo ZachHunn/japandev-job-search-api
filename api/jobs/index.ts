@@ -36,8 +36,8 @@ const getJobsFromJapanDev = async (): Promise<Job[]> => {
   return response.data.data;
 };
 
-const jobListFromXata = await getJobsFromXata();
-const jobIdsFromXata = jobListFromXata.map((job) => job.jobId);
+const jobListFromXata = getJobsFromXata();
+const jobIdsFromXata = (await jobListFromXata).map((job) => job.jobId);
 
 app.get("/api/jobs", async (req: Request, res: Response<MyReponse<Jobs[]>>) => {
   if (req.method !== "GET") {
@@ -113,7 +113,7 @@ app.delete(
     const jobsFromJapanDev = await getJobsFromJapanDev();
     const jobIdsFromJapanDev = jobsFromJapanDev.map((job) => job.attributes.id);
     const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(
-      jobListFromXata,
+      await jobListFromXata,
       jobIdsFromJapanDev as number[]
     );
 

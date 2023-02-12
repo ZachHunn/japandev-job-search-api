@@ -17,8 +17,8 @@ const getJobsFromJapanDev = async () => {
     }
     return response.data.data;
 };
-const jobListFromXata = await getJobsFromXata();
-const jobIdsFromXata = jobListFromXata.map((job) => job.jobId);
+const jobListFromXata = getJobsFromXata();
+const jobIdsFromXata = (await jobListFromXata).map((job) => job.jobId);
 app.get("/api/jobs", async (req, res) => {
     if (req.method !== "GET") {
         throw new Error("Method not allowed");
@@ -82,7 +82,7 @@ app.delete("/api/jobs/delete", async (req, res) => {
     }
     const jobsFromJapanDev = await getJobsFromJapanDev();
     const jobIdsFromJapanDev = jobsFromJapanDev.map((job) => job.attributes.id);
-    const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(jobListFromXata, jobIdsFromJapanDev);
+    const jobsRemovedFromJapanDev = getJobsRemovedFromJapanDev(await jobListFromXata, jobIdsFromJapanDev);
     if (jobsRemovedFromJapanDev.length === 0) {
         res.json({
             data: `There are ${jobsRemovedFromJapanDev.length} jobs to delete from the database`,
