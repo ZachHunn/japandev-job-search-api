@@ -1,5 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import cors from "cors";
 import express, { Express, Request, Response } from "express";
 import {
   createJob,
@@ -20,6 +21,8 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
 });
+
+app.use(cors());
 
 type MyReponse<T> =
   | {

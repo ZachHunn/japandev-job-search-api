@@ -1,5 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import cors from "cors";
 import express from "express";
 import { createJob, createManyJobs, deleteManyJobs, getJobsFromXata, getJobIdsFromXata, } from "./repository/xataDatabaseRepo";
 import { getJobsRemovedFromJapanDev } from "./utils/jobDifference";
@@ -9,6 +10,7 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`App is listening on port ${port}`);
 });
+app.use(cors());
 const japanDevUrl = "https://api.japan-dev.com/api/v1/jobs?limit=300";
 const getJobsFromJapanDev = async () => {
     const response = await axios.get(japanDevUrl);
