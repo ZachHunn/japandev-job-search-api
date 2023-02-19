@@ -71,7 +71,7 @@ app.post(
         );
         await createManyJobs(jobsFromJapanDev);
         res.status(200).send({
-          data: `${jobsFromJapanDev.length} Jobs from Japan-Dev have been added to notion database`,
+          data: `${jobsFromJapanDev.length} Jobs from Japan-Dev have been added to xata database`,
         });
       } else {
         console.log(

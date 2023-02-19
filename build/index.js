@@ -44,7 +44,7 @@ app.post("/api/jobs/create", async (req, res) => {
             console.log("Xata Database is empty. Populating datbase with jobs from japan-dev.com");
             await createManyJobs(jobsFromJapanDev);
             res.status(200).send({
-                data: `${jobsFromJapanDev.length} Jobs from Japan-Dev have been added to notion database`,
+                data: `${jobsFromJapanDev.length} Jobs from Japan-Dev have been added to xata database`,
             });
         }
         else {
