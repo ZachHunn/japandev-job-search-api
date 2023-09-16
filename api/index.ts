@@ -51,7 +51,9 @@ app.get("/api/jobs", async (req: Request, res: Response<MyReponse<Jobs[]>>) => {
     const jobList = await getJobsFromXata();
     res.status(200).json({ data: jobList });
   } catch (e) {
+    if (e instanceof Error){
     res.status(500).send({ err: "Error getting jobs from the database" });
+    }
   }
 });
 app.post(
@@ -101,10 +103,12 @@ app.post(
         }
       }
     } catch (error) {
+      if (error instanceof Error){
       console.error(error);
       res.status(500).json({
         err: "Something went wrong! Xata Database could not be updated!",
       });
+      }
     }
   }
 );

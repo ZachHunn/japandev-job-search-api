@@ -30,7 +30,9 @@ app.get("/api/jobs", async (req, res) => {
         res.status(200).json({ data: jobList });
     }
     catch (e) {
-        res.status(500).send({ err: "Error getting jobs from the database" });
+        if (e instanceof Error) {
+            res.status(500).send({ err: "Error getting jobs from the database" });
+        }
     }
 });
 app.post("/api/jobs/create", async (req, res) => {
@@ -73,10 +75,12 @@ app.post("/api/jobs/create", async (req, res) => {
         }
     }
     catch (error) {
-        console.error(error);
-        res.status(500).json({
-            err: "Something went wrong! Xata Database could not be updated!",
-        });
+        if (error instanceof Error) {
+            console.error(error);
+            res.status(500).json({
+                err: "Something went wrong! Xata Database could not be updated!",
+            });
+        }
     }
 });
 app.delete("/api/jobs/delete", async (req, res) => {
